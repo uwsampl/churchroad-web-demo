@@ -3,18 +3,24 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: taiki-e/install-action@v2
       with:
-        tool: nextest
-    - uses: Swatinem/rust-cache@v2
-    - run: make test
-  nits:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: Swatinem/rust-cache@v2
-    - run: make nits
+        submodules: true
+    - uses:
+          -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      # -
+      #   name: Login to Docker Hub
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          push: false
