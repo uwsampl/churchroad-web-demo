@@ -1,3 +1,6 @@
 [submodule "yosys"]
-	path = yosys
+	path = yowasp-yosys
 	url = https://github.com/YoWASP/yosys
+[submodule "churchroad"]
+	path = churchroad
+	url = https://github.com/uwsampl/churchroad
