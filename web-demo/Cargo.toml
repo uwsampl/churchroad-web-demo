@@ -6,6 +6,10 @@ version = "0.1.0"
 [lib]
 crate-type = ["cdylib"]
 
+# Wasm-opt started failing when I changed egglog version; disabling.
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
+
 [dependencies.egglog]
 default-features = false
 features = ["wasm-bindgen"]
