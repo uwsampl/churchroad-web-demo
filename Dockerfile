@@ -55,4 +55,17 @@ RUN \
 
 
 
+# Add web demo folder.
+WORKDIR /root
+ADD web-demo web-demo
+# Copy Churchroad source into the web demo.
+ADD churchroad/egglog_src/churchroad.egg web-demo/static/
 
+WORKDIR /root
+ADD churchroad-js churchroad-js
+RUN npx webpack --config webpack.config.js
+
+
+WORKDIR /
+ADD Makefile Makefile
+RUN make web
