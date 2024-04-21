@@ -9,7 +9,9 @@ crate-type = ["cdylib"]
 [dependencies.egglog]
 default-features = false
 features = ["wasm-bindgen"]
-path = ".."
+#path = ".."
+git = "https://github.com/egraphs-good/egglog"
+rev = "325814fd90767b5e43c72bc2eb65e14ff0b8746c"
 
 [dependencies]
 wee_alloc = "0.4.5"
