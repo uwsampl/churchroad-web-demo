@@ -158,6 +158,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
+name = "churchroad"
+version = "0.1.0"
+dependencies = [
+ "egglog 0.1.0 (git+https://github.com/egraphs-good/egglog?rev=325814fd90767b5e43c72bc2eb65e14ff0b8746c)",
+ "log",
+]
+
+[[package]]
 name = "clap"
 version = "4.5.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -301,6 +309,35 @@ dependencies = [
  "lalrpop-util",
  "lazy_static",
  "libtest-mimic",
+ "log",
+ "num-integer",
+ "num-rational",
+ "num-traits",
+ "ordered-float",
+ "regex",
+ "rustc-hash",
+ "serde_json",
+ "smallvec",
+ "symbol_table",
+ "thiserror",
+]
+
+[[package]]
+name = "egglog"
+version = "0.1.0"
+source = "git+https://github.com/egraphs-good/egglog?rev=325814fd90767b5e43c72bc2eb65e14ff0b8746c#325814fd90767b5e43c72bc2eb65e14ff0b8746c"
+dependencies = [
+ "clap",
+ "egraph-serialize",
+ "env_logger",
+ "generic_symbolic_expressions",
+ "getrandom",
+ "hashbrown 0.14.3",
+ "indexmap",
+ "instant",
+ "lalrpop",
+ "lalrpop-util",
+ "lazy_static",
  "log",
  "num-integer",
  "num-rational",
@@ -1271,8 +1308,9 @@ dependencies = [
 name = "web-demo"
 version = "0.1.0"
 dependencies = [
+ "churchroad",
  "console_error_panic_hook",
- "egglog",
+ "egglog 0.1.0 (git+https://github.com/egraphs-good/egglog?rev=325814fd90767b5e43c72bc2eb65e14ff0b8746c)",
  "js-sys",
  "log",
  "wasm-bindgen",
