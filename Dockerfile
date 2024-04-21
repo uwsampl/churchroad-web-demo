@@ -12,27 +12,12 @@ RUN apt-get update && apt-get install -y \
   libc6 \
   libc6-dev \
   libtool \
+  npm \
+  pkg-config \
   python3 \
+  tclsh \
   wget \
   xz-utils
-
-# Download and build libffi-emscripten.
-WORKDIR /root
-RUN \
-  # Begin by installing emsdk.
-  mkdir emsdk \
-  && wget -qO- https://github.com/emscripten-core/emsdk/archive/176dec4875db4d74c2038d7e8af3395be38d222c.tar.gz | tar xz -C emsdk --strip-components=1 \
-  && cd emsdk \
-  && ./emsdk install latest \
-  && ./emsdk activate latest \
-  && . "/root/emsdk/emsdk_env.sh" \
-  && cd /root \
-  && mkdir libffi-emscripten \
-  && wget -qO- https://github.com/hoodmane/libffi-emscripten/archive/44cb3268c778b0894a37cddc4ee7c89189197f55.tar.gz | tar xz -C libffi-emscripten --strip-components=1 \
-  && cd libffi-emscripten \
-  && ./testsuite/emscripten/build.sh
-
-RUN apt install -y pkg-config npm tclsh
 
 WORKDIR /root
 ADD churchroad churchroad
@@ -48,7 +33,6 @@ RUN \
   && cd yowasp-yosys \
   && git checkout ca630ead0ca01c06c389176a163966edeb07f151 \
   && git submodule update \
-  && . "/root/emsdk/emsdk_env.sh" \
   # We need the Churchroad backend to be part of Yosys. I tried enabling plugins
   # with wasm, but it was more effort than it was worth given that we could also
   # just hack the backend into the Yosys source. The comented out lines are
