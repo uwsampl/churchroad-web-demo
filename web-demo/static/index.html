@@ -103,6 +103,7 @@
     </style>
 
     <link rel="stylesheet" href="//unpkg.com/codemirror@5.65.2/lib/codemirror.css">
+    <script src="churchroad.js"></script>
     <script src="//unpkg.com/codemirror@5.65.2/lib/codemirror.js"></script>
     <script src="//unpkg.com/codemirror@5.65.2/mode/scheme/scheme.js"></script>
     <script src="//unpkg.com/codemirror@5.65.2/addon/edit/matchbrackets.js"></script>
@@ -279,6 +280,14 @@
             makeContentBySexp();
             updateSlideMode();
         }
+        
+        window.convertVerilog = async function convertVerilog() {
+            let churchroad_egglog = await fetch("churchroad.egg").then(r => r.text());
+            let program = editor.getValue();
+            churchroad.verilogToChurchroad(program).then((churchroad) => {
+                editor.setValue(`${churchroad_egglog}\n\n${churchroad}`);
+            });
+        }
 
         window.next = function next() {
             if (state.hasRun) {
@@ -414,6 +423,7 @@
             <button onclick="run()">Run</button>
             <button onclick="pushState()" id="share">Share</button>
             <button onclick="slideMode()">Slidemode</button>
+            <button onclick="convertVerilog()">Convert Verilog</button>
             <button id="prev" onclick="prev()">Prev</button>
             <button id="next" onclick="next()">Next</button>
             <p id="slideNumber"></p>
