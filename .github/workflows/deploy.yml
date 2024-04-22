@@ -21,6 +21,8 @@ jobs:
         cache-from: type=gha
         push: false
         tags: churchroad-web-demo
+        build-args: |
+          MAKE_JOBS=2
 
     - name: Start container and copy www/ directory
       run: |
