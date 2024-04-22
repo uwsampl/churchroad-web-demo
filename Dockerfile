@@ -64,7 +64,9 @@ ADD churchroad/egglog_src/churchroad.egg web-demo/static/
 WORKDIR /root
 ADD churchroad-js churchroad-js
 WORKDIR /root/churchroad-js
-RUN npx webpack --config webpack.config.js
+RUN \
+  npm install --save ../yowasp-yosys/npmjs \
+  && npx webpack --config webpack.config.js
 
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
