@@ -1,8 +1,0 @@
-(datatype Nat
-  (S Nat))
-(declare Zero Nat)
-
-(let two (S (S Zero)))
-
-(union two (S (S (S Zero))))
-(check (= two (S (S (S Zero)))))
