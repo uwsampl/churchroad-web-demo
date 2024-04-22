@@ -29,7 +29,7 @@ docs:
 	touch target/doc/.nojekyll # prevent github from trying to run jekyll
 	cp -r target/doc ${WWW}/docs
 
-web: docs ${DIST_WASM} ${WEB_SRC} ${WWW}/examples.json
+web: ${DIST_WASM} ${WEB_SRC} ${WWW}/examples.json
 	mkdir -p ${WWW}
 	cp ${WEB_SRC} ${WWW}
 	find target -name .gitignore -delete  # ignored files are wonky to deploy
