@@ -63,9 +63,16 @@ ADD churchroad/egglog_src/churchroad.egg web-demo/static/
 
 WORKDIR /root
 ADD churchroad-js churchroad-js
+WORKDIR /root/churchroad-js
 RUN npx webpack --config webpack.config.js
 
 
-WORKDIR /
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+ENV PATH="/root/.cargo/bin:$PATH"
+RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+
+WORKDIR /root
 ADD Makefile Makefile
+ADD tests tests
 RUN make web
