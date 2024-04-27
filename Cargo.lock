@@ -162,6 +162,8 @@ name = "churchroad"
 version = "0.1.0"
 dependencies = [
  "egglog 0.1.0 (git+https://github.com/egraphs-good/egglog?rev=325814fd90767b5e43c72bc2eb65e14ff0b8746c)",
+ "egraph-serialize",
+ "indexmap",
  "log",
 ]
 
@@ -1311,8 +1313,12 @@ dependencies = [
  "churchroad",
  "console_error_panic_hook",
  "egglog 0.1.0 (git+https://github.com/egraphs-good/egglog?rev=325814fd90767b5e43c72bc2eb65e14ff0b8746c)",
+ "egraph-serialize",
+ "indexmap",
  "js-sys",
  "log",
+ "ordered-float",
+ "rustc-hash",
  "wasm-bindgen",
  "wasm-logger",
  "web-sys",

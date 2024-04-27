@@ -21,6 +21,11 @@ rev = "325814fd90767b5e43c72bc2eb65e14ff0b8746c"
 wee_alloc = "0.4.5"
 churchroad = {path = "../churchroad"}
 
+egraph-serialize = "0.1"
+indexmap = "2.0.0"
+rustc-hash = "1.1.0"
+ordered-float = "3"
+
 log = "0.4.19"
 wasm-logger = "0.2"
 
