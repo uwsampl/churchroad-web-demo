@@ -36,6 +36,8 @@ jobs:
         cache-from: type=gha
         push: false
         tags: churchroad-web-demo
+        # Otherwise, will not be visible to the next step.
+        load: true
         build-args: |
           MAKE_JOBS=2
 
