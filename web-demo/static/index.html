@@ -421,18 +421,16 @@
     <div id="panel">
         <div id="toolbar">
             <button onclick="run()">Run</button>
-            <button onclick="pushState()" id="share">Share</button>
-            <button onclick="slideMode()">Slidemode</button>
             <button onclick="convertVerilog()">Convert Verilog</button>
             <button id="prev" onclick="prev()">Prev</button>
             <button id="next" onclick="next()">Next</button>
             <p id="slideNumber"></p>
 
             <!-- <label for="examples">Examples:</label> -->
-            <select name="examples" id="examples">
+            <select style="display: none;" name="examples" id="examples">
                 <option value=""> Load an example </option>
             </select>
-            <div class="right" id="github">
+            <!-- <div class="right" id="github">
                 <a class="badge" href="https://github.com/egraphs-good/egglog">
                     <img alt="GitHub Repo"
                         src="https://img.shields.io/github/stars/egraphs-good/egglog?label=GitHub&style=social"></a>
@@ -440,7 +438,7 @@
             <div class="right" id="docs">
                 <a class="badge" href="docs/egglog">
                     <img alt="Main Branch Documentation" src="https://img.shields.io/badge/docs-main-blue"></a>
-            </div>
+            </div> -->
         </div>
         <!-- Log panel -->
         <div class="tab">

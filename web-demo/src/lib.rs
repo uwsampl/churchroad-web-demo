@@ -26,7 +26,9 @@ pub fn run_program(input: &str) -> Result {
             let choices = GreedyDagExtractor::default().extract(&serialized2, &[]);
             let mut out = churchroad::to_verilog_egraph_serialize(&serialized2, &choices, "");
 
-            out.push_str("\n\nOutputs:\n");
+            if outputs.len() > 0 {
+                out.push_str("\n\nOutputs:\n");
+            }
             for (i, output) in outputs.iter().enumerate() {
                 out.push_str(&format!("Output {}: {}\n", i, output));
             }
