@@ -1,0 +1,136 @@
+<p>
+  For a simple demo of how Churchroad can utilize equality saturation for
+  interesting EDA tasks, we will demonstrate how we can use it to decompile a
+  half
+  adder.
+</p>
+<p>
+  The following mess of code is a simple example of what might come out of a
+  synthesis tool like Yosys:
+</p>
+<p>
+  <pre>
+module top(i_a, i_b, o_s, o_c);
+  wire \fa1.ha1_carry ;
+  wire \fa1.ha1_sum ;
+  wire \fa1.ha2_carry ;
+  wire \fa1.half_adder1.i1 ;
+  wire \fa1.half_adder1.i2 ;
+  wire \fa1.half_adder1.o_carry ;
+  wire \fa1.half_adder1.o_sum ;
+  wire \fa1.half_adder2.i1 ;
+  wire \fa1.half_adder2.i2 ;
+  wire \fa1.half_adder2.o_carry ;
+  wire \fa1.half_adder2.o_sum ;
+  wire \fa1.i_a ;
+  wire \fa1.i_b ;
+  wire \fa1.i_c ;
+  wire \fa1.o_c ;
+  wire \fa1.o_s ;
+  input i_a;
+  wire i_a;
+  input i_b;
+  wire i_b;
+  output o_c;
+  wire o_c;
+  output o_s;
+  wire o_s;
+  assign \fa1.o_c = \fa1.ha1_carry | \fa1.ha2_carry ;
+  assign \fa1.ha1_carry = i_a & i_b;
+  assign \fa1.half_adder1.o_sum = i_a ^ i_b;
+  assign \fa1.ha2_carry = \fa1.half_adder1.o_sum & 1'h0;
+  assign \fa1.half_adder2.o_sum = \fa1.half_adder1.o_sum ^ 1'h0;
+  assign \fa1.o_s = \fa1.half_adder2.o_sum ;
+  assign \fa1.i_c = 1'h0;
+  assign \fa1.i_b = i_b;
+  assign \fa1.i_a = i_a;
+  assign \fa1.ha1_sum = \fa1.half_adder1.o_sum ;
+  assign \fa1.half_adder2.i1 = \fa1.half_adder1.o_sum ;
+  assign \fa1.half_adder2.i2 = 1'h0;
+  assign \fa1.half_adder2.o_carry = \fa1.ha2_carry ;
+  assign \fa1.half_adder1.i1 = i_a;
+  assign \fa1.half_adder1.i2 = i_b;
+  assign \fa1.half_adder1.o_carry = \fa1.ha1_carry ;
+  assign o_c = \fa1.o_c ;
+  assign o_s = \fa1.half_adder2.o_sum ;
+endmodule
+</pre>
+</p>
+
+<p>
+  If you <b>paste this code into the Churchroad demo and hit
+    "Convert Verilog"</b> Churchroad will convert the Verilog to its internal
+  representation: a
+  domain-specific language embedded in the <a target="_blank"
+    href="https://github.com/egraphs-good/egglog">egglog</a> language. This
+  gives us a representation of the design which we can manipulate using the
+  power of
+  equality saturation.
+</p>
+
+<p>
+  What might we want to do with equality saturation, however? One thing we might
+  want is to see if we can discover places in the module where higher-level
+  modules might have been used. For example, given the presence of bitwise ANDs
+  and XORs in the above design, might there be a half adder buried in there?
+</p>
+
+<p>
+  To explore this question, we write a rewrite rule which searches for specific
+  patterns of ANDs and XORs and maps them back to higher-level Verilog modules:
+</p>
+
+<p>
+  <pre>
+(ruleset adders)
+(rule
+ ; These are the things we are searching for. In this case, we are looking for
+ ; wires a and b, both of which are inputs to an XOR and an AND gate.
+ ((= sum (Op2 (Xor) a b))
+  (= carry (Op2 (And) a b)))
+ ; If we find the above wires, then we apply the following actions.
+ ; Namely, using `union`, we say that the sum wire is *equivalent to* the "sum"
+ ; output of a "HalfAdd" module instance, and the carry wire is likewise
+ ; equivalent to the "carry" output of the same module instance.
+ ((union sum
+    (GetOutput 
+      (ModuleInstance "HalfAdd" 
+        (StringCons "a" (StringCons "b" (StringNil))) 
+        (ExprCons a (ExprCons b (ExprNil)))) 
+      "sum"))
+  (union carry
+    (GetOutput 
+      (ModuleInstance "HalfAdd" 
+        (StringCons "a" (StringCons "b" (StringNil)))
+        (ExprCons a (ExprCons b (ExprNil))))
+      "carry")))
+  :ruleset adders)
+(run-schedule (saturate adders))
+  </pre>
+</p>
+
+<p>
+  If you <b>paste this rule below the generated Churchroad code and hit
+    "Run"</b>,
+  Churchroad will run the rule and compile the resulting egraph back to Verilog.
+  In this case, you will see that Churchroad is able to decompile the big blob
+  of Verilog into a much simpler half adder module instantiation!
+</p>
+
+<p>
+  If you would like to continue exploring what Churchroad can do, try writing
+  and running your own rewrite rules to transform the underlying design. You can
+  see the results of your transformations in the egraph visualization in the
+  bottom right. For even more exploration, you can try beginning with your very
+  own Verilog modules.
+</p>
+
+<p>
+  Churchroad is in the earliest stages of its development, so expect it to break
+  very quickly. Please submit any issues via the "Submit Issue" button on the
+  demo.
+</p>
+
+<p>
+  Enjoy!
+</p>
